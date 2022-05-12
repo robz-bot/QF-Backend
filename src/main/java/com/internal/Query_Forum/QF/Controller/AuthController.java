@@ -5,6 +5,8 @@ package com.internal.Query_Forum.QF.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +45,11 @@ public class AuthController {
 	@PutMapping("/profile")
 	public UserRequest profile(@RequestBody UserRequest userRequest) {
 		return authService.profile(userRequest);
+	}
+	
+	@GetMapping("/getuserProfile/{id}")
+	public UserRequest getuserProfile(@PathVariable String id) {
+		return authService.getuserProfile(Long.parseLong(id));
 	}
 
 }

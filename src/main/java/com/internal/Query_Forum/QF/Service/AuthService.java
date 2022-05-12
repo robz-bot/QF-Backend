@@ -19,5 +19,7 @@ public interface AuthService {
 
 	UserRequest profile(UserRequest userRequest);
 
+	UserRequest getuserProfile(Long id);
+
 	
 }

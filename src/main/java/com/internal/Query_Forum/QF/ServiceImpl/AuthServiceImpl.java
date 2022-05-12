@@ -104,6 +104,7 @@ public class AuthServiceImpl implements AuthService {
 			userById.setGithub(userRequest.getGithub());
 			userById.setGender(userRequest.getGender());
 			userById.setDesignation(userRequest.getDesignation());
+			userById.setOrganization(userRequest.getOrganization());
 			userById.setUpdatedOn(Instant.now());
 			
 			userRepository.save(userById);
@@ -111,6 +112,34 @@ public class AuthServiceImpl implements AuthService {
 		
 		resultDto.setMessage("Profile Updated Successfully");
 		resultDto.setSuccess(true);
+		
+		return resultDto;
+	}
+
+	@Override
+	public UserRequest getuserProfile(Long id) {
+		
+		UserRequest resultDto =new UserRequest();
+		
+		User user = userRepository.findById(id).orElse(null);
+		if(user!=null) {
+			resultDto.setDesignation(user.getDesignation());
+			resultDto.setEmail(user.getEmail());
+			resultDto.setGender(user.getGender());
+			resultDto.setGithub(user.getGithub());
+			resultDto.setLinkedIn(user.getLinkedIn());
+			resultDto.setLocation(user.getLocation());
+			resultDto.setMessage("User Fetched Successfully");
+			resultDto.setOrganization(user.getOrganization());
+			resultDto.setPhoneNumber(user.getPhoneNumber());
+			resultDto.setSkills(user.getSkills());
+			resultDto.setSuccess(true);
+			resultDto.setUpdatedOn(user.getUpdatedOn());
+			resultDto.setUserName(user.getUserName());
+			
+			userRepository.save(user);
+		}
+		
 		
 		return resultDto;
 	}
