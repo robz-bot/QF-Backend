@@ -5,8 +5,6 @@ package com.internal.Query_Forum.QF.Dto;
 
 import java.time.Instant;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Robin
  *

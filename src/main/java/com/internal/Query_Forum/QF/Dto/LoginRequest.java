@@ -11,6 +11,7 @@ public class LoginRequest {
 	private String email;
 	private String password;
 	private Long userId;
+	private String userName;
 
 	private String message;
 	private boolean success;
@@ -89,6 +90,14 @@ public class LoginRequest {
 	 */
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

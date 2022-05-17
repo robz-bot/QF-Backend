@@ -69,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
 				if (findUser.getEmail().equalsIgnoreCase(loginRequest.getEmail())) {
 					if (passwordEncoder.matches(loginRequest.getPassword(), findUser.getPassword())) {
 						resultDto.setUserId(findUser.getId());
+						resultDto.setUserName(findUser.getUserName());
 						resultDto.setMessage("Login Success");
 						resultDto.setSuccess(true);
 					} else {
@@ -84,7 +85,9 @@ public class AuthServiceImpl implements AuthService {
 				resultDto.setMessage("Inactive Account");
 				resultDto.setSuccess(false);
 			}
-
+		}else {
+			resultDto.setMessage("You have not register yet or Contact Adminstator");
+			resultDto.setSuccess(false);
 		}
 
 		return resultDto;

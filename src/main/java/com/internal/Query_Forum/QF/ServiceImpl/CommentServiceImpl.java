@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	private CommentRequest comment(Comment comment) {
+		PrettyTime prettyTime = new PrettyTime();
 		CommentRequest res = new CommentRequest();
 		User getUser = userRepository.findById(comment.getUserId()).orElse(null);
 		if (getUser != null) {
@@ -87,6 +89,8 @@ public class CommentServiceImpl implements CommentService {
 		res.setUpdatedOn(comment.getUpdatedOn());
 		res.setUserId(comment.getUserId());
 		res.setLiked(comment.isLiked());
+		res.setCreatedTimeAgo(prettyTime.format(comment.getCreatedOn()));
+		res.setCreatedTimeAgo(prettyTime.format(comment.getUpdatedOn()));
 		return res;
 	}
 

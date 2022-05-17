@@ -21,6 +21,10 @@ public class CommentRequest {
 	private Instant updatedOn;
 	private boolean success;
 	private String message;
+	
+	private String createdTimeAgo;
+	private String updatedTimeAgo;
+	
 	/**
 	 * @return the id
 	 */
@@ -158,6 +162,18 @@ public class CommentRequest {
 		return "CommentRequest [id=" + id + ", text=" + text + ", postId=" + postId + ", post=" + post + ", userId="
 				+ userId + ", userName=" + userName + ", liked=" + liked + ", createdOn=" + createdOn + ", updatedOn="
 				+ updatedOn + ", success=" + success + ", message=" + message + "]";
+	}
+	public String getCreatedTimeAgo() {
+		return createdTimeAgo;
+	}
+	public void setCreatedTimeAgo(String createdTimeAgo) {
+		this.createdTimeAgo = createdTimeAgo;
+	}
+	public String getUpdatedTimeAgo() {
+		return updatedTimeAgo;
+	}
+	public void setUpdatedTimeAgo(String updatedTimeAgo) {
+		this.updatedTimeAgo = updatedTimeAgo;
 	}
 	
 	

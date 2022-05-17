@@ -7,13 +7,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.internal.Query_Forum.QF.Common;
 import com.internal.Query_Forum.QF.SequenceGenerator;
 import com.internal.Query_Forum.QF.Dto.PostRequest;
-import com.internal.Query_Forum.QF.Dto.VoteRequest;
 import com.internal.Query_Forum.QF.Entity.Post;
 import com.internal.Query_Forum.QF.Entity.User;
 import com.internal.Query_Forum.QF.Entity.Vote;
@@ -44,8 +44,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostRequest newPost(PostRequest postRequest) {
-		//Creating new post
-		//n-post 1-user
+		// Creating new post
+		// n-post 1-user
 		PostRequest resultDto = new PostRequest();
 		Post post = new Post();
 		post.setCreatedOn(Instant.now());
@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostRequest> getAllPost() {
-		//Get all posts
+		// Get all posts
 		List<Post> list = postRepository.findAll();
 		List<PostRequest> resultDto = new ArrayList<PostRequest>();
 
@@ -77,7 +77,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private PostRequest post(Post post, Long id) {
-		//Get all posts by user id who likes the post 
+		// Get all posts by user id who likes the post
+		PrettyTime prettyTime = new PrettyTime();
 		PostRequest res = new PostRequest();
 		User getUser = userRepository.findById(post.getUserId()).orElse(null);
 		if (getUser != null) {
@@ -90,6 +91,8 @@ public class PostServiceImpl implements PostService {
 		res.setUpdatedOn(post.getUpdatedOn());
 		res.setUserId(post.getUserId());
 		res.setVoteCount(post.getVoteCount());
+		res.setCreatedTimeAgo(prettyTime.format(post.getCreatedOn()));
+		res.setCreatedTimeAgo(prettyTime.format(post.getUpdatedOn()));
 
 		Vote getVoteByUser = voteRepository.findByPostIdAndUserId(post.getId(), id);
 
@@ -103,11 +106,11 @@ public class PostServiceImpl implements PostService {
 					res.setUserDisLiked(true);
 				}
 			}
-		}else {
+		} else {
 			res.setUserLiked(false);
 			res.setUserDisLiked(false);
 		}
-		
+
 		List<Vote> getAllVotes = voteRepository.findByPostId(post.getId());
 		Long getLikedVotesCount = 0L;
 		Long getDisLikedVotesCount = 0L;
@@ -120,7 +123,7 @@ public class PostServiceImpl implements PostService {
 				}
 			}
 		}
-		
+
 		res.setLikedVoteCount(getLikedVotesCount);
 		res.setDisLikedVoteCount(getDisLikedVotesCount);
 
@@ -128,6 +131,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private PostRequest post(Post post) {
+		PrettyTime prettyTime = new PrettyTime();
 		PostRequest res = new PostRequest();
 		User getUser = userRepository.findById(post.getUserId()).orElse(null);
 		if (getUser != null) {
@@ -140,7 +144,9 @@ public class PostServiceImpl implements PostService {
 		res.setUpdatedOn(post.getUpdatedOn());
 		res.setUserId(post.getUserId());
 		res.setVoteCount(post.getVoteCount());
-
+		res.setCreatedTimeAgo(prettyTime.format(post.getCreatedOn()));
+		res.setCreatedTimeAgo(prettyTime.format(post.getUpdatedOn()));
+		;
 		return res;
 	}
 
@@ -196,9 +202,12 @@ public class PostServiceImpl implements PostService {
 		List<Post> list = postRepository.findAll();
 		List<PostRequest> resultDto = new ArrayList<PostRequest>();
 
-		for (Post post : list) {
-			resultDto.add(post(post, id));
+		if (list != null) {
+			for (Post post : list) {
+				resultDto.add(post(post, id));
+			}
 		}
+
 		return resultDto;
 	}
 

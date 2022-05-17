@@ -21,6 +21,9 @@ public class PostRequest {
 	private boolean isUserDisLiked;
 	private Long likedVoteCount;
 	private Long disLikedVoteCount;
+	private String createdTimeAgo;
+	private String updatedTimeAgo;
+	
 
 	private boolean success;
 	private String message;
@@ -188,6 +191,22 @@ public class PostRequest {
 
 	public void setDisLikedVoteCount(Long disLikedVoteCount) {
 		this.disLikedVoteCount = disLikedVoteCount;
+	}
+
+	public String getCreatedTimeAgo() {
+		return createdTimeAgo;
+	}
+
+	public void setCreatedTimeAgo(String createdTimeAgo) {
+		this.createdTimeAgo = createdTimeAgo;
+	}
+
+	public String getUpdatedTimeAgo() {
+		return updatedTimeAgo;
+	}
+
+	public void setUpdatedTimeAgo(String updatedTimeAgo) {
+		this.updatedTimeAgo = updatedTimeAgo;
 	}
 
 }
