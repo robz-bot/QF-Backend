@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.internal.Query_Forum.QF.Dto.PostRequest;
+import com.internal.Query_Forum.QF.Dto.SearchRequest;
 import com.internal.Query_Forum.QF.Service.PostService;
 
 /**
@@ -52,9 +53,9 @@ public class PostController {
 		return postService.getAllPost();
 	}
 	
-	@GetMapping("/allPostByUserId/{id}")
-	public List<PostRequest> allPostByUserId(@PathVariable String id) {
-		return postService.allPostByUserId(Long.parseLong(id));
+	@GetMapping("/allPostByUserId/{id}/{type}")
+	public List<PostRequest> allPostByUserId(@PathVariable String id,@PathVariable String type) {
+		return postService.allPostByUserId(Long.parseLong(id),type);
 	}
 	
 	@GetMapping("/getPost/{id}")
@@ -72,6 +73,12 @@ public class PostController {
 	@DeleteMapping("/deletePost/{id}")
 	public PostRequest deletePost(@PathVariable String id) {
 		PostRequest res = postService.deletePost(Long.parseLong(id));
+		return res;
+	}
+	
+	@GetMapping("/getSearchPostDate/{date}")
+	public List<PostRequest> getSearchPostDate(@PathVariable String date) {
+		List<PostRequest> res = postService.getSearchPostDate(date);
 		return res;
 	}
 }

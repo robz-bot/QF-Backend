@@ -6,14 +6,17 @@ package com.internal.Query_Forum.QF.ServiceImpl;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.internal.Query_Forum.QF.Common;
 import com.internal.Query_Forum.QF.SequenceGenerator;
 import com.internal.Query_Forum.QF.Dto.PostRequest;
+import com.internal.Query_Forum.QF.Dto.SearchRequest;
 import com.internal.Query_Forum.QF.Entity.Post;
 import com.internal.Query_Forum.QF.Entity.User;
 import com.internal.Query_Forum.QF.Entity.Vote;
@@ -43,7 +46,7 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	CommentRepository commentRepository;
-	
+
 	@Autowired
 	ReportRepository reportRepository;
 
@@ -132,9 +135,9 @@ public class PostServiceImpl implements PostService {
 		} else {
 			res.setCommentCount(0);
 		}
-		
+
 		int reportCount = reportRepository.findAllByPostId(post.getId()).size();
-		
+
 		if (reportCount > 0) {
 			res.setReportCount(reportCount);
 		} else {
@@ -245,13 +248,33 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostRequest> allPostByUserId(Long id) {
-		List<Post> list = postRepository.findAll();
+	public List<PostRequest> allPostByUserId(Long id, String type) {
+		List<Post> list = new ArrayList<Post>();
+		if (type.equals("ASC")) {
+			list = postRepository.findAllByOrderByCreatedOnAsc();
+		} else if (type.equals("DESC")) {
+			list = postRepository.findAllByOrderByCreatedOnDesc();
+		}
 		List<PostRequest> resultDto = new ArrayList<PostRequest>();
 
-		if (list != null) {
+		if (list.size() > 0) {
 			for (Post post : list) {
 				resultDto.add(post(post, id));
+			}
+		}
+
+		return resultDto;
+	}
+
+	@Override
+	public List<PostRequest> getSearchPostDate(String date) {
+		List<PostRequest> resultDto = new ArrayList<PostRequest>();
+		List<Post> list = postRepository.findAll();
+		if (list != null) {
+			for (Post post : list) {
+				if (post.getCreatedOn().toString().split("T")[0].equals(date)) {
+					resultDto.add(post(post));
+				}
 			}
 		}
 

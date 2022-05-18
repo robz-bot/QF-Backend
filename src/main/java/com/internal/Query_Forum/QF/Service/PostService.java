@@ -6,6 +6,7 @@ package com.internal.Query_Forum.QF.Service;
 import java.util.List;
 
 import com.internal.Query_Forum.QF.Dto.PostRequest;
+import com.internal.Query_Forum.QF.Dto.SearchRequest;
 
 /**
  * @author ROBIN RAJESH
@@ -23,9 +24,11 @@ public interface PostService {
 
 	List<PostRequest> getUserPostList(Long id);
 
-	List<PostRequest> allPostByUserId(Long id);
+	List<PostRequest> allPostByUserId(Long id, String type);
 
 	PostRequest updatePost(PostRequest postRequest);
+
+	List<PostRequest> getSearchPostDate(String date);
 
 	
 
