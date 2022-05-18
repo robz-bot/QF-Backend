@@ -18,7 +18,9 @@ import com.internal.Query_Forum.QF.Entity.Post;
 import com.internal.Query_Forum.QF.Entity.User;
 import com.internal.Query_Forum.QF.Entity.Vote;
 import com.internal.Query_Forum.QF.Entity.VoteType;
+import com.internal.Query_Forum.QF.Repository.CommentRepository;
 import com.internal.Query_Forum.QF.Repository.PostRepository;
+import com.internal.Query_Forum.QF.Repository.ReportRepository;
 import com.internal.Query_Forum.QF.Repository.UserRepository;
 import com.internal.Query_Forum.QF.Repository.VoteRepository;
 import com.internal.Query_Forum.QF.Service.PostService;
@@ -38,6 +40,12 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	VoteRepository voteRepository;
+
+	@Autowired
+	CommentRepository commentRepository;
+	
+	@Autowired
+	ReportRepository reportRepository;
 
 	@Autowired
 	SequenceGenerator sequenceGenerator;
@@ -61,6 +69,29 @@ public class PostServiceImpl implements PostService {
 		resultDto.setMessage("Posted Successfully");
 		resultDto.setSuccess(true);
 
+		return resultDto;
+	}
+
+	@Override
+	public PostRequest updatePost(PostRequest postRequest) {
+		// Updating existing post
+		PostRequest resultDto = new PostRequest();
+		Post post = postRepository.findById(postRequest.getId()).orElse(null);
+
+		if (post != null) {
+			post.setCreatedOn(postRequest.getCreatedOn());
+			post.setDescription(postRequest.getDescription());
+			post.setUpdatedOn(Instant.now());
+			post.setUserId(postRequest.getUserId());
+			post.setVoteCount(0);
+
+			postRepository.save(post);
+			resultDto.setMessage("Post Updated Successfully");
+			resultDto.setSuccess(true);
+		} else {
+			resultDto.setMessage("Post Not Exits");
+			resultDto.setSuccess(false);
+		}
 		return resultDto;
 	}
 
@@ -93,6 +124,22 @@ public class PostServiceImpl implements PostService {
 		res.setVoteCount(post.getVoteCount());
 		res.setCreatedTimeAgo(prettyTime.format(post.getCreatedOn()));
 		res.setCreatedTimeAgo(prettyTime.format(post.getUpdatedOn()));
+
+		int commentCount = commentRepository.findAllByPostId(post.getId()).size();
+
+		if (commentCount > 0) {
+			res.setCommentCount(commentCount);
+		} else {
+			res.setCommentCount(0);
+		}
+		
+		int reportCount = reportRepository.findAllByPostId(post.getId()).size();
+		
+		if (reportCount > 0) {
+			res.setReportCount(reportCount);
+		} else {
+			res.setReportCount(0);
+		}
 
 		Vote getVoteByUser = voteRepository.findByPostIdAndUserId(post.getId(), id);
 

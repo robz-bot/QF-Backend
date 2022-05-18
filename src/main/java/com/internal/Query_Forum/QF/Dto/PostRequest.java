@@ -23,6 +23,8 @@ public class PostRequest {
 	private Long disLikedVoteCount;
 	private String createdTimeAgo;
 	private String updatedTimeAgo;
+	private int commentCount;
+	private int reportCount;
 	
 
 	private boolean success;
@@ -207,6 +209,22 @@ public class PostRequest {
 
 	public void setUpdatedTimeAgo(String updatedTimeAgo) {
 		this.updatedTimeAgo = updatedTimeAgo;
+	}
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public int getReportCount() {
+		return reportCount;
+	}
+
+	public void setReportCount(int reportCount) {
+		this.reportCount = reportCount;
 	}
 
 }

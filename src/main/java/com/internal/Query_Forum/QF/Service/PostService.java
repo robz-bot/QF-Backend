@@ -25,6 +25,8 @@ public interface PostService {
 
 	List<PostRequest> allPostByUserId(Long id);
 
+	PostRequest updatePost(PostRequest postRequest);
+
 	
 
 }
