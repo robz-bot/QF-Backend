@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import com.internal.Query_Forum.QF.Entity.Post;
 import com.internal.Query_Forum.QF.Entity.Vote;
 
 /**
@@ -22,5 +23,7 @@ public interface VoteRepository extends MongoRepository<Vote, Long>{
 	Vote findByVoteType(String voteType);
 
 	List<Vote> findByPostId(Long postId);
+
+	List<Post> findAllByVoteType(String votetypeUp);
 
 }

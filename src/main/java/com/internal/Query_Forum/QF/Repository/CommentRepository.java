@@ -19,4 +19,6 @@ public interface CommentRepository extends MongoRepository<Comment, Long>{
 
 	List<Comment> findAllByPostId(Long postId);
 
+	void deleteByPostId(Long id);
+
 }

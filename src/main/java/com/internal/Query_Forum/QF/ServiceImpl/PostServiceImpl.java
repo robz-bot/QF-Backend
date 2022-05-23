@@ -228,8 +228,11 @@ public class PostServiceImpl implements PostService {
 			resultDto.setMessage("Post Not Found");
 			resultDto.setSuccess(false);
 		} else {
-
 			postRepository.deleteById(id);
+			
+			//Delete comments related to this post
+			commentRepository.deleteByPostId(id);
+			
 			resultDto.setMessage("Post Deleted Successfully");
 			resultDto.setSuccess(true);
 		}
